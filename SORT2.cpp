@@ -90,25 +90,25 @@ int main()
     int n = sizeof(arr) / sizeof(arr[0]); // Calculate the length of the array
 
     // SELECTION SORT 
-    // int temp, loc;
-    // for (int i = 0; i < 5 - 1; i++)
-    // {
-    //     // int min = arr[i];
-    //     // loc=i;
-    //     int minindex = i;
-    //     for (int j = i + 1; j < 5; j++)
-    //     {
-    //         if (arr[j] < arr[minindex])
-    //         {
-    //             minindex = j;
-    //             //   loc = j;
-    //         }
-    //     }
-    //     
-    //     temp = arr[i];
-    //     arr[i] = arr[minindex];
-    //     arr[minindex] = temp;
-    // }
+    int temp, loc;
+    for (int i = 0; i < 5 - 1; i++)
+    {
+        // int min = arr[i];
+        // loc=i;
+        int minindex = i;
+        for (int j = i + 1; j < 5; j++)
+        {
+            if (arr[j] < arr[minindex])
+            {
+                minindex = j;
+                //   loc = j;
+            }
+        }
+        
+        temp = arr[i];
+        arr[i] = arr[minindex];
+        arr[minindex] = temp;
+    }
 
     // BUBBLE SORT
     // for (int i = 0; i < 5 - 1; i++)
