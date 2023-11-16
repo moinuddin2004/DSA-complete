@@ -53,6 +53,33 @@ void insertAtPosition(Node *&head, int val, int pos)
     temp2->next = temp;
 }
 
+void del(Node *&head, int pos)
+{
+    if (head == nullptr)
+    {
+        cout << "List is empty. Cannot delete from an empty list." << endl;
+        return;
+    }
+
+    if (pos == 1)
+    {
+        Node *temp = head;
+        head = head->next;
+        free(temp);
+        return;
+    }
+
+    Node *temp = head;
+    for (int i = 1; i < pos - 1 ; ++i)
+    {
+        temp = temp->next;
+    }
+
+    Node *temp2 = temp->next;
+    temp->next = temp2->next;
+    free(temp2);
+}
+
 // Function to display the linked list
 void display(Node *head)
 {
@@ -82,6 +109,8 @@ int main()
 
     insertAtPosition(head, 66, 3);
     // Display the linked list
+    display(head);
+    del(head, 3);
     display(head);
 
     return 0;
