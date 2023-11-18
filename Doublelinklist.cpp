@@ -1,9 +1,8 @@
 #include <iostream>
 using namespace std;
-
-// Define the Node structure outside of the main function
 struct Node
 {
+    Node *prev;
     int data;
     Node *next;
 };
@@ -18,17 +17,21 @@ void insertAtTail(Node *&head, int val)
     }
 
     Node *temp = new Node();
+    temp->prev = last;
     temp->data = val;
     temp->next = NULL;
     last->next = temp;
 }
-
 // Function to insert a node at the head of the linked list
 void insertAtStart(Node *&head, int val)
 {
     Node *temp = new Node();
+    temp->prev = NULL;
     temp->data = val;
+    temp->next = NULL;
+
     temp->next = head;
+    head->prev = temp;
     head = temp;
 }
 
@@ -41,20 +44,25 @@ void insertAtPosition(Node *&head, int val, int pos)
         insertAtStart(head, val);
         return;
     }
+
     Node *temp = new Node();
+    temp->prev = NULL;
     temp->data = val;
     temp->next = NULL;
 
-    Node *temp2 = head;
+    Node *last = head;
     for (int i = 1; i < pos - 1; i++)
     {
-        temp2 = temp2->next;
+        last = last->next;
     }
-    temp->next = temp2->next;
-    temp2->next = temp;
+    
+    last->next->prev = temp;
+    temp->next = last->next;
+    last->next = temp;
+    temp->prev = last;
 }
 
-// Function to delete a node from a given position
+// Function to delete a node from the linked list
 void del(Node *&head, int pos)
 {
     if (head == nullptr)
@@ -66,20 +74,27 @@ void del(Node *&head, int pos)
     if (pos == 1)
     {
         Node *temp = head;
+        head->next->prev = NULL;
         head = head->next;
         free(temp);
         return;
     }
 
-    Node *temp = head;
-    for (int i = 1; i < pos - 1 ; ++i)
+    Node *last = head;
+    for (int i = 1; i < pos - 1; ++i)
     {
-        temp = temp->next;
+        last = last->next;
     }
 
-    Node *temp2 = temp->next;
-    temp->next = temp2->next;
-    free(temp2);
+    Node *delNode = last->next;
+    last->next = delNode->next;
+    if (delNode->next != nullptr)
+    {
+        delNode->next->prev = last;
+    }
+    delNode->prev = NULL;
+    delNode->next = NULL;
+    delete delNode;
 }
 
 // Function to display the linked list
@@ -100,9 +115,11 @@ int main()
 
     // Create the first node
     Node *temp = new Node();
+    temp->prev = NULL;
     temp->data = 2;
     temp->next = NULL;
     head = temp;
+
     // Insert a node at the head
     insertAtStart(head, 1);
     // Insert a node at the tail
