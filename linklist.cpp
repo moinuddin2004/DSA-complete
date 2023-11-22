@@ -72,7 +72,7 @@ void del(Node *&head, int pos)
     }
 
     Node *temp = head;
-    for (int i = 1; i < pos - 1 ; ++i)
+    for (int i = 1; i < pos - 1; ++i)
     {
         temp = temp->next;
     }
@@ -80,6 +80,23 @@ void del(Node *&head, int pos)
     Node *temp2 = temp->next;
     temp->next = temp2->next;
     free(temp2);
+}
+
+// Function to search for a value in the linked list
+void search(Node *head, int val)
+{
+    int count = 1;
+    while (head !=NULL)
+    {
+        if (head->data == val)
+        {
+            cout << "found" << endl;
+            cout << "position is " << count << endl;
+            return;
+        }
+        count++;
+        head = head->next;
+    }
 }
 
 // Function to display the linked list
@@ -114,6 +131,7 @@ int main()
     display(head);
     del(head, 4);
     display(head);
+    search(head, 66);
 
     return 0;
 }
