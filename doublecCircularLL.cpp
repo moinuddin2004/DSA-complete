@@ -7,7 +7,6 @@ struct Node
     Node *next;
 };
 
-
 // Function to insert a node at the head of the linked list
 void insertAtStart(Node *&head, int val)
 {
@@ -16,10 +15,18 @@ void insertAtStart(Node *&head, int val)
     temp->data = val;
     temp->next = NULL;
 
+    Node *last = head;
+    while (last->next != NULL)
+    {
+        last = last->next;
+    }
+    last->next = temp;
     temp->next = head;
+    temp->prev = last;
     head->prev = temp;
     head = temp;
 }
+
 // Function to insert a node at the tail of the linked list
 void insertAtTail(Node *&head, int val)
 {
@@ -28,8 +35,9 @@ void insertAtTail(Node *&head, int val)
         insertAtStart(head, val);
         return;
     }
+
     Node *last = head;
-    while (last->next !=head)
+    while (last->next != NULL)
     {
         last = last->next;
     }
@@ -37,9 +45,10 @@ void insertAtTail(Node *&head, int val)
     Node *temp = new Node();
     temp->prev = last;
     temp->data = val;
-    temp->next = NULL;
+    temp->next = head;
     last->next = temp;
 }
+
 // Function to insert a node at a given position
 void insertAtPosition(Node *&head, int val, int pos)
 {
@@ -60,13 +69,11 @@ void insertAtPosition(Node *&head, int val, int pos)
     {
         last = last->next;
     }
-    
+
     last->next->prev = temp;
     temp->next = last->next;
     last->next = temp;
     temp->prev = last;
-
-
 }
 
 // Function to delete a node from the linked list
@@ -80,14 +87,8 @@ void del(Node *&head, int pos)
 
     if (pos == 1)
     {
-        Node *last = head;
-        while (last->next != head)
-        {
-            last = last->next;
-        }
         Node *temp = head;
-        last->next = head->next;
-        head->next->prev = last;
+        head->next->prev = NULL;
         head = head->next;
         free(temp);
         return;
